@@ -1,0 +1,52 @@
+services:
+  - type: web
+    name: clarix-lms
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: APP_NAME
+        value: CLARIX
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: false
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        value: https://clarix-lms.onrender.com  # à remplacer par ton URL Render
+
+      # Base de données TiDB
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        sync: false   # à renseigner dans le dashboard Render
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_DATABASE
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: MYSQL_ATTR_SSL_CA
+        value: /etc/ssl/certs/ca-certificates.crt
+
+      # Sessions & Cache via fichier (pas besoin de DB au démarrage)
+      - key: SESSION_DRIVER
+        value: file
+      - key: CACHE_STORE
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+
+      # Stockage
+      - key: FILESYSTEM_DISK
+        value: local
+
+      # IA Groq
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.1-8b-instant
