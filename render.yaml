@@ -15,7 +15,7 @@ services:
       - key: APP_KEY
         generateValue: true
       - key: APP_URL
-        value: https://clarix-lms.onrender.com  # à remplacer par ton URL Render
+        value: https://clarix-dpn3.onrender.com
 
       # Base de données TiDB
       - key: DB_CONNECTION
