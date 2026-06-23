@@ -33,6 +33,26 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 // 1. Routes publiques
 // ─────────────────────────────────────────────────────────
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Route de diagnostic DB (à supprimer après vérification)
+Route::get('/db-check', function () {
+    try {
+        $pdo = DB::connection()->getPdo();
+        $host = DB::connection()->getConfig('host');
+        $db   = DB::connection()->getDatabaseName();
+        $users = DB::table('users')->count();
+        return response()->json([
+            'status'  => 'OK',
+            'host'    => $host,
+            'db'      => $db,
+            'users'   => $users,
+            'driver'  => DB::connection()->getConfig('driver'),
+            'session' => config('session.driver'),
+        ]);
+    } catch (\Exception $e) {
+        return response()->json(['status' => 'ERROR', 'message' => $e->getMessage()], 500);
+    }
+});
 Route::get('/cours', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/cours/{course:slug}', [CourseController::class, 'show'])->name('courses.show');
 Route::get('/recherche', [SearchController::class, 'index'])->name('search');
