@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_mysql, mbstring, gd, zip, bcmath
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install PHP dependencies
+        run: composer install --no-dev --optimize-autoloader --no-interaction
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Build assets
+        run: npm run build
+
+      - name: Check routes
+        run: php artisan route:list --no-ansi
+        env:
+          APP_KEY: base64:dGVzdGtleWZvcmNpdGVzdGluZ29ubHkxMjM0NTY=
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"

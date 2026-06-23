@@ -11,5 +11,8 @@ php artisan route:cache
 # Migrations
 php artisan migrate --force
 
+# Compte admin par défaut
+php artisan admin:seed
+
 # Démarrage du serveur
 php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
