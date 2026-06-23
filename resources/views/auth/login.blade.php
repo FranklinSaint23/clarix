@@ -30,7 +30,7 @@
             <button type="submit" class="btn-primary w-full text-center">Se connecter</button>
         </form>
         <div class="mt-6 text-center text-sm">
-            <span class="text-on-surface-variant">Nouveau sur Skillora ?</span>
+            <span class="text-on-surface-variant">Nouveau sur Clarix ?</span>
             <a href="{{ route('register') }}" class="text-primary font-medium ml-1">Créer un compte</a>
         </div>
     </div>
