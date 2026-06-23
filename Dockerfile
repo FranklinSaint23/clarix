@@ -25,7 +25,9 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction
 RUN npm ci && npm run build && rm -rf node_modules
 
 RUN chmod +x start.sh \
-    && mkdir -p storage/framework/{sessions,views,cache} \
+    && mkdir -p storage/framework/sessions \
+    && mkdir -p storage/framework/views \
+    && mkdir -p storage/framework/cache/data \
     && mkdir -p storage/logs \
     && chmod -R 775 storage bootstrap/cache
 
