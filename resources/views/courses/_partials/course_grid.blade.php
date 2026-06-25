@@ -3,8 +3,29 @@
         @foreach($courses as $course)
             <div class="group bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
                 <div class="relative h-48 overflow-hidden">
-                    <img src="{{ $course->thumbnail_url }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                         alt="{{ $course->title }}" loading="lazy">
+                    @if($course->thumbnail)
+                        <img src="{{ $course->thumbnail_url }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                             alt="{{ $course->title }}" loading="lazy">
+                    @else
+                        @php
+                            $gradients = [
+                                'beginner'     => 'from-blue-500 to-indigo-600',
+                                'intermediate' => 'from-emerald-500 to-teal-600',
+                                'advanced'     => 'from-purple-500 to-pink-600',
+                            ];
+                            $icons = [
+                                'beginner'     => 'fa-seedling',
+                                'intermediate' => 'fa-chart-line',
+                                'advanced'     => 'fa-rocket',
+                            ];
+                            $grad = $gradients[$course->level] ?? 'from-primary to-indigo-600';
+                            $icon = $icons[$course->level] ?? 'fa-graduation-cap';
+                        @endphp
+                        <div class="w-full h-full bg-gradient-to-br {{ $grad }} flex flex-col items-center justify-center transition-transform duration-500 group-hover:scale-105">
+                            <i class="fas {{ $icon }} text-white/80 text-4xl mb-2"></i>
+                            <p class="text-white/90 font-display font-bold text-center px-4 text-sm leading-tight">{{ Str::limit($course->title, 30) }}</p>
+                        </div>
+                    @endif
                     <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition"></div>
                     <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-xs font-semibold px-2.5 py-1 rounded-full shadow-sm">
                         @if($course->level == 'beginner') 🌱 Débutant

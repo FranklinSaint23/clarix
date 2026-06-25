@@ -6,9 +6,15 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
     <!-- En-tête -->
-    <div class="mb-8">
-        <h1 class="text-2xl sm:text-3xl font-display font-bold tracking-tight">Gestion des utilisateurs</h1>
-        <p class="text-sm text-on-surface-variant mt-1">Gérez les comptes, les rôles et les permissions des utilisateurs.</p>
+    <div class="mb-8 flex flex-wrap justify-between items-start gap-4">
+        <div>
+            <h1 class="text-2xl sm:text-3xl font-display font-bold tracking-tight">Gestion des utilisateurs</h1>
+            <p class="text-sm text-on-surface-variant mt-1">Gérez les comptes, les rôles et les permissions des utilisateurs.</p>
+        </div>
+        <a href="{{ route('admin.users.create') }}"
+           class="inline-flex items-center gap-2 px-4 py-2.5 bg-primary text-white rounded-xl hover:bg-primary/90 transition shadow-sm font-medium text-sm">
+            <i class="fas fa-user-plus"></i> Ajouter un utilisateur
+        </a>
     </div>
 
     <!-- Tableau des utilisateurs -->

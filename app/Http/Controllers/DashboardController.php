@@ -111,11 +111,51 @@ class DashboardController extends Controller
             \App\Models\User::where('role', 'admin')->count(),
         ];
 
+        $recentActivities = collect();
+
+        // 5 dernières inscriptions
+        $recentActivities = $recentActivities->merge(
+            \App\Models\Enrollment::with(['user', 'course'])
+                ->latest()->take(5)->get()
+                ->map(fn($e) => [
+                    'icon'    => 'fa-user-graduate',
+                    'color'   => 'green',
+                    'text'    => "{$e->user->name} s'est inscrit à « {$e->course->title} »",
+                    'time'    => $e->created_at,
+                ])
+        );
+
+        // 5 derniers utilisateurs créés
+        $recentActivities = $recentActivities->merge(
+            \App\Models\User::latest()->take(5)->get()
+                ->map(fn($u) => [
+                    'icon'    => 'fa-user-plus',
+                    'color'   => 'blue',
+                    'text'    => "Nouveau compte : {$u->name} ({$u->role})",
+                    'time'    => $u->created_at,
+                ])
+        );
+
+        // 5 dernières soumissions de quiz
+        $recentActivities = $recentActivities->merge(
+            \App\Models\QuizSubmission::with(['user', 'quiz'])
+                ->latest()->take(5)->get()
+                ->map(fn($s) => [
+                    'icon'    => 'fa-brain',
+                    'color'   => 'purple',
+                    'text'    => "{$s->user->name} a soumis le quiz « {$s->quiz->title} » — {$s->score}%",
+                    'time'    => $s->created_at,
+                ])
+        );
+
+        $recentActivities = $recentActivities->sortByDesc('time')->take(10)->values();
+
         return view('dashboard.admin', compact(
             'totalUsers', 'totalCourses', 'publishedCourses',
             'totalEnrollments', 'totalRevenue',
             'activeStudents', 'quizzesPassed', 'avgProgress',
-            'monthlyLabels', 'monthlyEnrollments', 'usersByRole'
+            'monthlyLabels', 'monthlyEnrollments', 'usersByRole',
+            'recentActivities'
         ));
     }
 }

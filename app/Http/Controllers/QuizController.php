@@ -13,7 +13,7 @@ class QuizController extends Controller
     {
         $user = auth()->user();
 
-        if (!$user->isEnrolledIn($quiz->course_id)) {
+        if (!$user->isEnrolledIn($quiz->course_id) && !$user->isAdmin() && !$user->isInstructor()) {
             abort(403);
         }
 

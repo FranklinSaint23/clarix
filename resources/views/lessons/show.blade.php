@@ -36,7 +36,7 @@
     @endif
 
     {{-- Contenu texte structuré --}}
-    @if(in_array($lesson->type, ['text', 'mixed']) && $lesson->content)
+    @if($lesson->content)
         <div class="bg-white rounded-2xl shadow-sm p-6 mb-6 lesson-content">
             {!! $lesson->content !!}
         </div>
@@ -50,8 +50,24 @@
                     <p class="font-semibold">Quiz disponible</p>
                     <p class="text-sm text-on-surface-variant">Testez vos connaissances sur cette leçon.</p>
                 </div>
-                <a href="{{ route('quizzes.take', $lesson->quiz) }}" class="btn-primary py-2 px-5 text-sm">Passer le quiz</a>
+                <div class="flex gap-2 flex-wrap">
+                    @if(auth()->user()->isAdmin() || auth()->user()->isInstructor())
+                        <a href="{{ route('instructor.courses.quizzes.edit', [$lesson->chapter->course, $lesson->quiz]) }}"
+                           class="btn-secondary py-2 px-4 text-sm">
+                            <i class="fas fa-edit mr-1"></i> Gérer le quiz
+                        </a>
+                    @endif
+                    <a href="{{ route('quizzes.take', $lesson->quiz) }}" class="btn-primary py-2 px-5 text-sm">Passer le quiz</a>
+                </div>
             </div>
+        </div>
+    @elseif(auth()->user()->isAdmin() || auth()->user()->isInstructor())
+        <div class="bg-surface-low rounded-2xl p-4 mb-6 border border-dashed border-outline/40 flex items-center justify-between gap-3">
+            <p class="text-sm text-on-surface-variant">Aucun quiz pour cette leçon.</p>
+            <a href="{{ route('instructor.lessons.quizzes.create', $lesson) }}"
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary/90 transition">
+                <i class="fas fa-plus"></i> Créer un quiz IA
+            </a>
         </div>
     @endif
 
@@ -72,13 +88,24 @@
         </div>
     @endif
 
-    {{-- Marquer terminée --}}
-    <form action="{{ route('lessons.complete', $lesson) }}" method="POST">
-        @csrf
-        <button type="submit" class="btn-primary w-full md:w-auto">
-            <i class="fas fa-check-circle mr-2"></i> Marquer comme terminée
-        </button>
-    </form>
+    {{-- Marquer terminée — seulement pour les étudiants inscrits --}}
+    @php $enrolled = auth()->check() && auth()->user()->isEnrolledIn($lesson->chapter->course_id); @endphp
+    @if($enrolled)
+        @php $isCompleted = $lesson->isCompletedBy(auth()->id()); @endphp
+        @if($isCompleted)
+            <div class="flex items-center gap-2 text-green-600 font-medium">
+                <i class="fas fa-check-circle text-xl"></i>
+                <span>Leçon terminée</span>
+            </div>
+        @else
+            <form action="{{ route('lessons.complete', $lesson) }}" method="POST">
+                @csrf
+                <button type="submit" class="btn-primary w-full md:w-auto">
+                    <i class="fas fa-check-circle mr-2"></i> Marquer comme terminée
+                </button>
+            </form>
+        @endif
+    @endif
 </div>
 
 {{-- ═══════════════════════════════════════════════════════════════

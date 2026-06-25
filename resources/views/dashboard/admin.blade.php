@@ -86,36 +86,47 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <!-- Gestion des utilisateurs -->
         <div class="bg-white rounded-2xl border border-outline/20 shadow-sm overflow-hidden">
-            <div class="px-5 py-4 border-b border-outline/20 bg-surface-low/50">
+            <div class="px-5 py-4 border-b border-outline/20 bg-surface-low/50 flex items-center justify-between">
                 <h2 class="text-md font-display font-semibold flex items-center gap-2">
                     <i class="fas fa-users text-primary"></i> Utilisateurs
                 </h2>
+                <a href="{{ route(‘admin.users.create’) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary/90 transition">
+                    <i class="fas fa-plus"></i> Ajouter
+                </a>
             </div>
             <div class="p-5 space-y-3">
                 <p class="text-sm text-on-surface-variant">Gérez les comptes, rôles et permissions des utilisateurs.</p>
-                <a href="{{ route('admin.users.index') }}" class="inline-flex items-center gap-2 text-primary hover:underline text-sm font-medium">
-                    <i class="fas fa-arrow-right"></i> Gérer les utilisateurs
+                <a href="{{ route(‘admin.users.index’) }}" class="inline-flex items-center gap-2 text-primary hover:underline text-sm font-medium">
+                    <i class="fas fa-arrow-right"></i> Voir tous les utilisateurs
                 </a>
             </div>
         </div>
 
-        <!-- Rapports (exemple) -->
+        <!-- Rapport d’analyse -->
         <div class="bg-white rounded-2xl border border-outline/20 shadow-sm overflow-hidden">
             <div class="px-5 py-4 border-b border-outline/20 bg-surface-low/50">
                 <h2 class="text-md font-display font-semibold flex items-center gap-2">
-                    <i class="fas fa-chart-line text-primary"></i> Rapports
+                    <i class="fas fa-chart-line text-primary"></i> Analyse rapide
                 </h2>
             </div>
-            <div class="p-5 space-y-3">
-                <p class="text-sm text-on-surface-variant">Téléchargez les rapports d’activité et les analyses.</p>
-                <a href="#" class="inline-flex items-center gap-2 text-primary hover:underline text-sm font-medium">
-                    <i class="fas fa-download"></i> Télécharger le rapport
-                </a>
+            <div class="p-5 space-y-3 text-sm">
+                <div class="flex justify-between items-center py-1.5 border-b border-outline/10">
+                    <span class="text-on-surface-variant">Taux de complétion moyen</span>
+                    <span class="font-bold text-primary">{{ $avgProgress }}%</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5 border-b border-outline/10">
+                    <span class="text-on-surface-variant">Quiz réussis</span>
+                    <span class="font-bold text-green-600">{{ $quizzesPassed }}</span>
+                </div>
+                <div class="flex justify-between items-center py-1.5">
+                    <span class="text-on-surface-variant">Revenus totaux</span>
+                    <span class="font-bold text-purple-600">{{ number_format($totalRevenue, 0, ‘,’, ‘ ‘) }} FCFA</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Dernières activités (exemple) -->
+    <!-- Dernières activités réelles -->
     <div class="bg-white rounded-2xl border border-outline/20 shadow-sm overflow-hidden">
         <div class="px-5 py-4 border-b border-outline/20 bg-surface-low/50">
             <h2 class="text-md font-display font-semibold flex items-center gap-2">
@@ -123,33 +134,30 @@
             </h2>
         </div>
         <div class="divide-y divide-outline/20">
-            <div class="px-5 py-4 flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <i class="fas fa-user-plus text-primary text-sm"></i>
+            @forelse($recentActivities as $activity)
+                <div class="px-5 py-4 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0
+                        @if($activity[‘color’] === ‘green’) bg-green-100
+                        @elseif($activity[‘color’] === ‘blue’) bg-blue-100
+                        @elseif($activity[‘color’] === ‘purple’) bg-purple-100
+                        @else bg-primary/10 @endif">
+                        <i class="fas {{ $activity[‘icon’] }} text-sm
+                            @if($activity[‘color’] === ‘green’) text-green-600
+                            @elseif($activity[‘color’] === ‘blue’) text-blue-600
+                            @elseif($activity[‘color’] === ‘purple’) text-purple-600
+                            @else text-primary @endif"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium truncate">{{ $activity[‘text’] }}</p>
+                        <p class="text-xs text-on-surface-variant">{{ $activity[‘time’]->diffForHumans() }}</p>
+                    </div>
                 </div>
-                <div class="flex-1">
-                    <p class="text-sm font-medium">Nouvel utilisateur inscrit</p>
-                    <p class="text-xs text-on-surface-variant">Il y a 2 heures</p>
+            @empty
+                <div class="px-5 py-8 text-center text-sm text-on-surface-variant">
+                    <i class="fas fa-inbox text-3xl mb-2 block opacity-30"></i>
+                    Aucune activité récente.
                 </div>
-            </div>
-            <div class="px-5 py-4 flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                    <i class="fas fa-check-circle text-green-600 text-sm"></i>
-                </div>
-                <div class="flex-1">
-                    <p class="text-sm font-medium">Cours « Laravel 11 » publié</p>
-                    <p class="text-xs text-on-surface-variant">Il y a 5 heures</p>
-                </div>
-            </div>
-            <div class="px-5 py-4 flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-                    <i class="fas fa-credit-card text-purple-600 text-sm"></i>
-                </div>
-                <div class="flex-1">
-                    <p class="text-sm font-medium">Nouveau paiement reçu</p>
-                    <p class="text-xs text-on-surface-variant">Il y a 1 jour</p>
-                </div>
-            </div>
+            @endforelse
         </div>
     </div>
 </div>

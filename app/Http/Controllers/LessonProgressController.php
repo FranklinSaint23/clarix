@@ -3,22 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Lesson;
+use App\Models\LessonProgress;
 use Illuminate\Http\Request;
 
 class LessonProgressController extends Controller
 {
     public function complete(Request $request, Lesson $lesson)
     {
-        $user = auth()->user();
+        $user   = auth()->user();
         $course = $lesson->chapter->course;
 
         if (!$user->isEnrolledIn($course->id)) {
-            return back()->with('error', 'Vous devez être inscrit pour valider cette leçon.');
+            return redirect()->route('lessons.show', $lesson)
+                ->with('error', 'Vous devez être inscrit pour valider cette leçon.');
         }
 
-        $progress = $user->lessonProgress()->firstOrCreate([
-            'lesson_id' => $lesson->id,
-        ]);
+        $progress = LessonProgress::firstOrCreate(
+            ['user_id' => $user->id, 'lesson_id' => $lesson->id]
+        );
 
         if (!$progress->completed) {
             $progress->completed = true;
