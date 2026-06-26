@@ -12,7 +12,14 @@ class LessonPolicy
      */
     public function view(User $user, Lesson $lesson): bool
     {
-        // L'utilisateur doit être inscrit au cours de cette leçon
+        if ($user->isAdmin() || $user->isInstructor()) {
+            return true;
+        }
+
+        if ($lesson->is_free) {
+            return true;
+        }
+
         return $user->isEnrolledIn($lesson->chapter->course_id);
     }
 }

@@ -13,7 +13,7 @@ class LessonProgressController extends Controller
         $user   = auth()->user();
         $course = $lesson->chapter->course;
 
-        if (!$user->isEnrolledIn($course->id)) {
+        if (!$user->isEnrolledIn($course->id) && !$user->isAdmin() && !$user->isInstructor()) {
             return redirect()->route('lessons.show', $lesson)
                 ->with('error', 'Vous devez être inscrit pour valider cette leçon.');
         }
@@ -64,9 +64,11 @@ class LessonProgressController extends Controller
 
                 if ($totalLessons > 0 && $completedLessons == $totalLessons) {
                     $enrollment = $user->enrollments()->where('course_id', $course->id)->first();
-                    $enrollment->status = 'completed';
-                    $enrollment->completed_at = now();
-                    $enrollment->save();
+                    if ($enrollment) {
+                        $enrollment->status = 'completed';
+                        $enrollment->completed_at = now();
+                        $enrollment->save();
+                    }
                     return redirect()->route('courses.show', $course)->with('success', 'Félicitations ! Vous avez terminé toutes les leçons de ce cours.');
                 }
                 return redirect()->route('courses.show', $course)->with('success', 'Leçon terminée !');
