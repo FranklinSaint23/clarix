@@ -61,7 +61,7 @@
             @else
                 <div class="layer-lift p-8 text-center">
                     <i class="fas fa-book-open text-4xl text-primary/30 mb-3 block"></i>
-                    <p class="text-on-surface-variant">Vous n’avez aucun cours en cours pour le moment.</p>
+                    <p class="text-on-surface-variant">Vous n'avez aucun cours en cours pour le moment.</p>
                     <a href="{{ route('courses.index') }}" class="inline-block mt-4 text-primary hover:underline">Explorer le catalogue →</a>
                 </div>
             @endif
@@ -108,7 +108,7 @@
             @else
                 <div class="layer-lift p-8 text-center">
                     <i class="fas fa-folder-open text-4xl text-primary/30 mb-3 block"></i>
-                    <p class="text-on-surface-variant">Vous n’êtes encore inscrit à aucun cours.</p>
+                    <p class="text-on-surface-variant">Vous n'êtes encore inscrit à aucun cours.</p>
                     <a href="{{ route('courses.index') }}" class="inline-block mt-4 btn-primary">Découvrir les cours</a>
                 </div>
             @endif

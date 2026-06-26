@@ -148,7 +148,7 @@ Route::middleware(['auth', 'role:admin,instructor'])
         // Quiz pour une leçon
         Route::get('/lessons/{lesson}/quizzes/create', [InstructorQuizController::class, 'createForLesson'])->name('lessons.quizzes.create');
         Route::post('/lessons/{lesson}/quizzes', [InstructorQuizController::class, 'storeForLesson'])->name('lessons.quizzes.store');
-        // Questions d’un quiz
+        // Questions d'un quiz
         Route::prefix('quizzes/{quiz}')->group(function () {
             Route::get('/questions/create', [InstructorQuestionController::class, 'create'])->name('questions.create');
             Route::post('/questions', [InstructorQuestionController::class, 'store'])->name('questions.store');

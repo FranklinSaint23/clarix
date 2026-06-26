@@ -144,7 +144,7 @@
 
         <div class="meta-right">
             <div class="qr-section">
-                <img src="data:image/png;base64,{{ $qrCode }}" alt="QR Code">
+                <div style="width:80px;height:80px;">{!! $qrCode !!}</div>
                 <div class="qr-label">Vérifier le certificat</div>
             </div>
         </div>

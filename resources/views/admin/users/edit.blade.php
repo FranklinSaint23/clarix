@@ -18,7 +18,7 @@
 
     <!-- En-tête -->
     <div class="mb-8">
-        <h1 class="text-2xl sm:text-3xl font-display font-bold tracking-tight">Modifier l’utilisateur</h1>
+        <h1 class="text-2xl sm:text-3xl font-display font-bold tracking-tight">Modifier l'utilisateur</h1>
         <p class="text-sm text-on-surface-variant mt-1">{{ $user->name }}</p>
     </div>
 
@@ -52,13 +52,13 @@
             <!-- Bio -->
             <div>
                 <label class="block text-sm font-semibold text-on-surface mb-2">Bio</label>
-                <textarea name="bio" rows="4" class="input-field w-full resize-none" placeholder="Biographie de l’utilisateur...">{{ old('bio', $user->bio) }}</textarea>
+                <textarea name="bio" rows="4" class="input-field w-full resize-none" placeholder="Biographie de l'utilisateur...">{{ old('bio', $user->bio) }}</textarea>
             </div>
 
             <!-- Actions -->
             <div class="flex flex-wrap justify-between items-center gap-3 pt-4">
                 <button type="button" id="deleteUserBtn" class="inline-flex items-center gap-2 px-5 py-2 rounded-xl bg-red-50 text-red-600 hover:bg-red-100 transition font-medium text-sm">
-                    <i class="fas fa-trash-alt"></i> Supprimer l’utilisateur
+                    <i class="fas fa-trash-alt"></i> Supprimer l'utilisateur
                 </button>
                 <div class="flex gap-3">
                     <a href="{{ route('admin.users.index') }}" class="inline-flex justify-center items-center gap-2 px-6 py-3 rounded-xl border border-outline/30 text-on-surface-variant hover:bg-surface-low transition font-medium">
@@ -83,7 +83,7 @@
             <h3 class="text-lg font-display font-semibold">Confirmer la suppression</h3>
         </div>
         <p class="text-on-surface-variant text-sm mb-6">
-            Êtes-vous sûr de vouloir supprimer l’utilisateur <strong>{{ $user->name }}</strong> ?<br>
+            Êtes-vous sûr de vouloir supprimer l'utilisateur <strong>{{ $user->name }}</strong> ?<br>
             Cette action est irréversible.
         </p>
         <div class="flex justify-end gap-3">

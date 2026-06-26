@@ -55,7 +55,7 @@
             <div>
                 <label class="block text-sm font-semibold text-on-surface mb-2">Explication <span class="text-on-surface-variant text-xs font-normal">(optionnelle)</span></label>
                 <textarea name="explanation" rows="2" class="input-field w-full resize-none" placeholder="Expliquez pourquoi la bonne réponse est correcte...">{{ old('explanation') }}</textarea>
-                <p class="text-xs text-on-surface-variant mt-2">Affichée après correction pour aider l’étudiant.</p>
+                <p class="text-xs text-on-surface-variant mt-2">Affichée après correction pour aider l'étudiant.</p>
             </div>
 
             <!-- Réponses -->

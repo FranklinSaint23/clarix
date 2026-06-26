@@ -89,7 +89,7 @@
             <h3 class="text-lg font-display font-semibold">Confirmer la suppression</h3>
         </div>
         <p class="text-on-surface-variant text-sm mb-6">
-            Êtes-vous sûr de vouloir supprimer l’utilisateur <strong id="deleteUserName"></strong> ?<br>
+            Êtes-vous sûr de vouloir supprimer l'utilisateur <strong id="deleteUserName"></strong> ?<br>
             Cette action est irréversible.
         </p>
         <div class="flex justify-end gap-3">

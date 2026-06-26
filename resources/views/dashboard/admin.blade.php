@@ -90,19 +90,19 @@
                 <h2 class="text-md font-display font-semibold flex items-center gap-2">
                     <i class="fas fa-users text-primary"></i> Utilisateurs
                 </h2>
-                <a href="{{ route(‘admin.users.create’) }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary/90 transition">
+                <a href="{{ route('admin.users.create') }}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-lg hover:bg-primary/90 transition">
                     <i class="fas fa-plus"></i> Ajouter
                 </a>
             </div>
             <div class="p-5 space-y-3">
                 <p class="text-sm text-on-surface-variant">Gérez les comptes, rôles et permissions des utilisateurs.</p>
-                <a href="{{ route(‘admin.users.index’) }}" class="inline-flex items-center gap-2 text-primary hover:underline text-sm font-medium">
+                <a href="{{ route('admin.users.index') }}" class="inline-flex items-center gap-2 text-primary hover:underline text-sm font-medium">
                     <i class="fas fa-arrow-right"></i> Voir tous les utilisateurs
                 </a>
             </div>
         </div>
 
-        <!-- Rapport d’analyse -->
+        <!-- Rapport d'analyse -->
         <div class="bg-white rounded-2xl border border-outline/20 shadow-sm overflow-hidden">
             <div class="px-5 py-4 border-b border-outline/20 bg-surface-low/50">
                 <h2 class="text-md font-display font-semibold flex items-center gap-2">
@@ -120,7 +120,7 @@
                 </div>
                 <div class="flex justify-between items-center py-1.5">
                     <span class="text-on-surface-variant">Revenus totaux</span>
-                    <span class="font-bold text-purple-600">{{ number_format($totalRevenue, 0, ‘,’, ‘ ‘) }} FCFA</span>
+                    <span class="font-bold text-purple-600">{{ number_format($totalRevenue, 0, ',', ' ') }} FCFA</span>
                 </div>
             </div>
         </div>
@@ -135,21 +135,27 @@
         </div>
         <div class="divide-y divide-outline/20">
             @forelse($recentActivities as $activity)
+                @php
+                    $bgClass   = match($activity['color']) {
+                        'green'  => 'bg-green-100',
+                        'blue'   => 'bg-blue-100',
+                        'purple' => 'bg-purple-100',
+                        default  => 'bg-primary/10',
+                    };
+                    $iconColor = match($activity['color']) {
+                        'green'  => 'text-green-600',
+                        'blue'   => 'text-blue-600',
+                        'purple' => 'text-purple-600',
+                        default  => 'text-primary',
+                    };
+                @endphp
                 <div class="px-5 py-4 flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0
-                        @if($activity[‘color’] === ‘green’) bg-green-100
-                        @elseif($activity[‘color’] === ‘blue’) bg-blue-100
-                        @elseif($activity[‘color’] === ‘purple’) bg-purple-100
-                        @else bg-primary/10 @endif">
-                        <i class="fas {{ $activity[‘icon’] }} text-sm
-                            @if($activity[‘color’] === ‘green’) text-green-600
-                            @elseif($activity[‘color’] === ‘blue’) text-blue-600
-                            @elseif($activity[‘color’] === ‘purple’) text-purple-600
-                            @else text-primary @endif"></i>
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 {{ $bgClass }}">
+                        <i class="fas {{ $activity['icon'] }} text-sm {{ $iconColor }}"></i>
                     </div>
                     <div class="flex-1 min-w-0">
-                        <p class="text-sm font-medium truncate">{{ $activity[‘text’] }}</p>
-                        <p class="text-xs text-on-surface-variant">{{ $activity[‘time’]->diffForHumans() }}</p>
+                        <p class="text-sm font-medium truncate">{{ $activity['text'] }}</p>
+                        <p class="text-xs text-on-surface-variant">{{ $activity['time']->diffForHumans() }}</p>
                     </div>
                 </div>
             @empty

@@ -29,7 +29,7 @@
                    class="input-field w-full text-base" 
                    placeholder="Ex: Maîtrisez Laravel 11" 
                    required autofocus>
-            <p class="text-xs text-on-surface-variant mt-1">Un titre accrocheur attire plus d’étudiants.</p>
+            <p class="text-xs text-on-surface-variant mt-1">Un titre accrocheur attire plus d'étudiants.</p>
         </div>
 
         <!-- Description -->

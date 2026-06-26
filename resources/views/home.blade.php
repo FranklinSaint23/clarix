@@ -134,7 +134,7 @@
         </h2>
 
         <p class="mt-4 text-white/80">
-            Rejoignez des milliers d’apprenants dès aujourd’hui.
+            Rejoignez des milliers d'apprenants dès aujourd'hui.
         </p>
 
         <a href="{{ route('register') }}" 

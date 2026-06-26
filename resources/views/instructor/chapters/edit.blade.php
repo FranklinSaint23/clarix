@@ -19,7 +19,7 @@
     <!-- En-tête -->
     <div class="mb-10">
         <h1 class="text-2xl sm:text-3xl font-display font-bold tracking-tight">Modifier le chapitre</h1>
-        <p class="text-sm text-on-surface-variant mt-2">Ajustez le titre, la description ou l’ordre du chapitre.</p>
+        <p class="text-sm text-on-surface-variant mt-2">Ajustez le titre, la description ou l'ordre du chapitre.</p>
     </div>
 
     <!-- Carte formulaire -->
@@ -47,13 +47,13 @@
                 <textarea name="description" rows="4" 
                           class="input-field w-full resize-none" 
                           placeholder="Décrivez brièvement ce que les étudiants apprendront dans ce chapitre...">{{ old('description', $chapter->description) }}</textarea>
-                <p class="text-xs text-on-surface-variant mt-2">Une description attrayante peut motiver l’apprentissage.</p>
+                <p class="text-xs text-on-surface-variant mt-2">Une description attrayante peut motiver l'apprentissage.</p>
             </div>
 
             <!-- Ordre -->
             <div>
                 <label class="block text-sm font-semibold text-on-surface mb-2">
-                    Ordre d’affichage
+                    Ordre d'affichage
                 </label>
                 <div class="flex items-center gap-4 flex-wrap">
                     <input type="number" name="order" value="{{ old('order', $chapter->order) }}" 

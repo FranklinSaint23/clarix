@@ -22,9 +22,8 @@ class CertificateController extends Controller
             'token'      => $this->token($enrollment),
         ]);
 
-        $qrCode = base64_encode(
-            QrCode::format('png')->size(120)->errorCorrection('H')->generate($verifyUrl)
-        );
+        // SVG format — works without imagick (GD is sufficient)
+        $qrCode = QrCode::format('svg')->size(120)->errorCorrection('H')->generate($verifyUrl);
 
         $completedAt = $enrollment->completed_at ?? $enrollment->updated_at;
 
