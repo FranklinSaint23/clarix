@@ -65,7 +65,7 @@
                     <label class="block text-sm font-semibold text-on-surface mb-1.5">Leçon associée <span class="text-on-surface-variant text-xs font-normal">(optionnel)</span></label>
                     <select name="lesson_id" class="input-field w-full">
                         <option value="">-- Aucune (quiz de cours) --</option>
-                        @foreach($lessons as $lesson)
+                        @foreach(($lessons ?? $course->lessons) as $lesson)
                             <option value="{{ $lesson->id }}" @selected(old('lesson_id') == $lesson->id)>{{ $lesson->title }}</option>
                         @endforeach
                     </select>
