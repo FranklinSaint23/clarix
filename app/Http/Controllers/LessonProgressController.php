@@ -28,7 +28,8 @@ class LessonProgressController extends Controller
             $progress->save();
 
             // Récupérer toutes les leçons du cours triées par chapitre puis par ordre
-            $lessons = $course->lessons()
+            // N.B. hasManyThrough joins chapters already — query Lesson directly to avoid duplicate alias
+            $lessons = \App\Models\Lesson::whereIn('chapter_id', $course->chapters()->pluck('id'))
                 ->join('chapters', 'lessons.chapter_id', '=', 'chapters.id')
                 ->orderBy('chapters.order')
                 ->orderBy('lessons.order')
