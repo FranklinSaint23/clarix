@@ -11,7 +11,9 @@ class CourseController extends Controller
 {
    public function index(Request $request)
     {
-        $query = auth()->user()->courses();
+        $query = auth()->user()->isAdmin()
+            ? Course::query()
+            : auth()->user()->courses();
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -73,7 +75,7 @@ class CourseController extends Controller
 
     public function edit(Course $course)
     {
-        if ($course->user_id !== auth()->id()) {
+        if ($course->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
             abort(403);
         }
         return view('instructor.courses.edit', compact('course'));
@@ -81,7 +83,7 @@ class CourseController extends Controller
 
     public function update(Request $request, Course $course)
     {
-        if ($course->user_id !== auth()->id()) {
+        if ($course->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
             abort(403);
         }
 
@@ -110,7 +112,7 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-        if ($course->user_id !== auth()->id()) {
+        if ($course->user_id !== auth()->id() && !auth()->user()->isAdmin()) {
             abort(403);
         }
 
